@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertidor Consumo Eléctrico</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <h1>⚡ Calculadora de Eficiencia Energética</h1>
+            <p>Convierte consumo eléctrico y compara costes con vehículos de combustión</p>
+        </header>
+
+        <main class="main-content">
+            <!-- Configuración de Precios -->
+            <section class="price-config-section">
+                <h2>💰 Configuración de Precios</h2>
+                <div class="price-grid">
+                    <div class="price-item">
+                        <label for="price-electricity">Electricidad (€/kWh)</label>
+                        <input type="number" id="price-electricity" class="price-input" value="0.15" step="0.01" min="0">
+                    </div>
+                    <div class="price-item">
+                        <label for="price-gasoline">Gasolina (€/l)</label>
+                        <input type="number" id="price-gasoline" class="price-input" value="1.70" step="0.01" min="0">
+                    </div>
+                    <div class="price-item">
+                        <label for="price-diesel">Diésel (€/l)</label>
+                        <input type="number" id="price-diesel" class="price-input" value="1.60" step="0.01" min="0">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Input de Vehículo Eléctrico -->
+            <section class="electric-input-section">
+                <h2>🔌 Tu Vehículo Eléctrico</h2>
+                <div class="input-card">
+                    <label for="kwh-input" class="input-label">Consumo (kWh/100km)</label>
+                    <input 
+                        type="number" 
+                        id="kwh-input" 
+                        class="kwh-input" 
+                        placeholder="Ej: 15.8"
+                        step="0.1"
+                        min="0"
+                    >
+                    <div class="examples-row">
+                        <button class="example-btn" data-value="14.4">Tesla Model 3 (14.4)</button>
+                        <button class="example-btn" data-value="16.8">Tesla Model Y (16.8)</button>
+                        <button class="example-btn" data-value="13.0">Fiat 500e (13.0)</button>
+                        <button class="example-btn" data-value="15.8">MG4 (15.8)</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Equivalencia Energética -->
+            <section class="energy-equivalence-section">
+                <h2>🔄 Equivalencia Energética Teórica</h2>
+                <div class="equivalence-grid">
+                    <div class="equivalence-card">
+                        <div class="equiv-icon">⛽</div>
+                        <div class="equiv-content">
+                            <div class="equiv-title">Equivalente Gasolina</div>
+                            <div class="equiv-value">
+                                <span id="gasoline-equivalent">0.00</span>
+                                <span class="unit">l/100km</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="equivalence-card">
+                        <div class="equiv-icon">🚗</div>
+                        <div class="equiv-content">
+                            <div class="equiv-title">Equivalente Diésel</div>
+                            <div class="equiv-value">
+                                <span id="diesel-equivalent">0.00</span>
+                                <span class="unit">l/100km</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Configuración Coches de Combustión -->
+            <section class="combustion-config-section">
+                <h2>🚙 Tus Coches de Combustión</h2>
+                <div class="combustion-cars" id="combustion-cars">
+                    <div class="car-config">
+                        <input type="text" class="car-name" placeholder="Mi coche gasolina" value="Mi coche gasolina">
+                        <input type="number" class="car-consumption" placeholder="6.0" value="6.0" step="0.1" min="0">
+                        <select class="car-fuel">
+                            <option value="gasolina">Gasolina</option>
+                            <option value="diesel">Diésel</option>
+                        </select>
+                        <button class="remove-car" disabled>✕</button>
+                    </div>
+                    <div class="car-config">
+                        <input type="text" class="car-name" placeholder="Mi coche diésel" value="Mi coche diésel">
+                        <input type="number" class="car-consumption" placeholder="4.5" value="4.5" step="0.1" min="0">
+                        <select class="car-fuel">
+                            <option value="gasolina">Gasolina</option>
+                            <option value="diesel" selected>Diésel</option>
+                        </select>
+                        <button class="remove-car" disabled>✕</button>
+                    </div>
+                </div>
+                <button class="add-car-btn" id="add-car-btn">+ Agregar Coche</button>
+            </section>
+
+            <!-- Resultados de Comparación -->
+            <section class="results-section" id="results-section">
+                <h2>📊 Comparativa de Costes por 100km</h2>
+                
+                <!-- Coste Eléctrico -->
+                <div class="electric-cost-card">
+                    <div class="cost-header">
+                        <span class="cost-icon">⚡</span>
+                        <h3>Tu Vehículo Eléctrico</h3>
+                    </div>
+                    <div class="cost-amount">
+                        <span id="electric-cost">0.00</span>
+                        <span class="cost-unit">€</span>
+                    </div>
+                </div>
+
+                <!-- Comparativas -->
+                <div class="comparisons-grid" id="comparisons-grid">
+                    <!-- Se llenarán dinámicamente -->
+                </div>
+
+                <!-- Resumen de Ahorros -->
+                <div class="savings-summary" id="savings-summary">
+                    <h3>💡 Resumen de Ahorros Anuales (15,000 km/año)</h3>
+                    <div class="annual-savings" id="annual-savings">
+                        <!-- Se llenarán dinámicamente -->
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
